@@ -19,11 +19,19 @@ Building standalone RabbitMQ 4.x plugins is challenging because:
 The standalone Makefile clones the monorepo and builds the plugin from within it:
 
 1. Clones `rabbitmq-server` to `.build/rabbitmq-server/`
-2. Creates `deps/rabbitmq_mqtt_username_interceptor/` with symlinks to our `src/` and `test/`
+2. **Copies** (not symlinks) `src/` and `test/` to `deps/rabbitmq_mqtt_username_interceptor/`
 3. Copies `Makefile.plugin` as the plugin's Makefile (uses standard monorepo includes)
 4. Runs the build from within the monorepo context
 
 This approach ensures all dependencies resolve correctly.
+
+### CI/Test Considerations
+
+Running tests requires special handling because `rabbitmq-dist.mk` only installs CLI scripts (rabbitmqctl, etc.) when `MAKELEVEL=0`. The wrapper Makefile explicitly sets `MAKELEVEL=0` when running tests to ensure the CLI tools are available.
+
+We use file copies instead of symlinks because:
+- Absolute symlinks don't work in CI (different paths)
+- Relative symlinks are fragile and hard to maintain
 
 ## Development Workflow
 
@@ -44,21 +52,14 @@ make dist                      # Creates dist/rabbitmq_mqtt_username_interceptor
 
 ### Testing
 
-Tests require the full RabbitMQ testing infrastructure. The easiest approach is to test within the monorepo:
-
 ```bash
-# Clone monorepo
-git clone https://github.com/rabbitmq/rabbitmq-server.git
-cd rabbitmq-server
-
-# Copy plugin
-cp -r /path/to/rabbitmq-mqtt-username-interceptor/src deps/rabbitmq_mqtt_username_interceptor/
-cp -r /path/to/rabbitmq-mqtt-username-interceptor/test deps/rabbitmq_mqtt_username_interceptor/
-cp /path/to/rabbitmq-mqtt-username-interceptor/Makefile.plugin deps/rabbitmq_mqtt_username_interceptor/Makefile
-
-# Run tests
-make -C deps/rabbitmq_mqtt_username_interceptor ct
+make test                      # Run tests (handles all setup automatically)
 ```
+
+The test target:
+1. Clones the monorepo if needed
+2. Copies plugin files into the monorepo
+3. Runs tests with `MAKELEVEL=0` to ensure CLI tools are installed
 
 ## Alternative Approaches Considered
 
@@ -76,6 +77,16 @@ Added custom `dep_fetch_git_rmq-subfolder` method.
 The older approach defined ALL component dependencies and custom fetch methods.
 
 **Result**: Works for 3.12.x but RabbitMQ 4.x's monorepo structure is different.
+
+### 4. Symlinks to Source Files
+Initial attempt used symlinks (`ln -sf $(CURDIR)/src $(PLUGIN_DIR)/src`).
+
+**Result**: Absolute symlinks don't work in CI because paths differ between local dev and CI environments.
+
+### 5. Using make -C with MAKELEVEL > 0
+Running `cd $(MONOREPO) && make -C deps/$(PROJECT) ct` from the wrapper.
+
+**Result**: Tests failed because `rabbitmq-dist.mk` only runs `install-cli` when `MAKELEVEL=0`. Fixed by explicitly setting `MAKELEVEL=0` when running tests.
 
 ## Files
 
