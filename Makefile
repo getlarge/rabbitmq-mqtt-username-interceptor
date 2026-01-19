@@ -35,6 +35,7 @@ $(PLUGIN_DIR): $(MONOREPO)
 	@mkdir -p $(PLUGIN_DIR)
 	@cp -r src $(PLUGIN_DIR)/src
 	@cp -r test $(PLUGIN_DIR)/test
+	@cp -r priv $(PLUGIN_DIR)/priv
 	@cp Makefile.plugin $(PLUGIN_DIR)/Makefile
 
 deps: $(PLUGIN_DIR)
