@@ -1,0 +1,29 @@
+%% ----------------------------------------------------------------------------
+%% RabbitMQ MQTT Annotation Interceptor Plugin
+%%
+%% Adds MQTT connection metadata as message annotations
+%% ----------------------------------------------------------------------------
+
+%% Note: This plugin auto-registers when enabled via rabbitmq-plugins.
+%% The configuration below controls which annotations are added.
+
+%% Enable x-opt-mqtt-username annotation (default: true)
+%% Contains the username used to authenticate the MQTT connection.
+{mapping, "mqtt_annotation_interceptor.username", "rabbitmq_mqtt_annotation_interceptor.username", [
+    {datatype, {enum, [true, false]}},
+    {default, true}
+]}.
+
+%% Enable x-opt-mqtt-vhost annotation (default: false)
+%% Contains the vhost the MQTT connection is connected to.
+{mapping, "mqtt_annotation_interceptor.vhost", "rabbitmq_mqtt_annotation_interceptor.vhost", [
+    {datatype, {enum, [true, false]}},
+    {default, false}
+]}.
+
+%% Enable x-opt-mqtt-connection-name annotation (default: false)
+%% Contains the connection name of the MQTT connection.
+{mapping, "mqtt_annotation_interceptor.connection_name", "rabbitmq_mqtt_annotation_interceptor.connection_name", [
+    {datatype, {enum, [true, false]}},
+    {default, false}
+]}.

@@ -1,9 +1,0 @@
-{application, rabbitmq_mqtt_username_interceptor, [
-    {description, "Adds MQTT username as message annotation"},
-    {vsn, "4.2.0"},
-    {modules, []},
-    {registered, []},
-    {applications, [kernel, stdlib, rabbit]},
-    {env, []}
-]}.
-

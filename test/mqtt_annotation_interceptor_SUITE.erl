@@ -5,8 +5,8 @@
 %% Copyright (c) 2007-2025 Broadcom. All Rights Reserved. The term "Broadcom"
 %% refers to Broadcom Inc. and/or its subsidiaries. All rights reserved.
 
-%% Test suite for the MQTT username message interceptor plugin.
--module(mqtt_username_interceptor_SUITE).
+%% Test suite for the MQTT annotation message interceptor plugin.
+-module(mqtt_annotation_interceptor_SUITE).
 
 -compile([export_all, nowarn_export_all]).
 
@@ -41,7 +41,7 @@ init_per_group(_Group, Config0) ->
                rabbit_ct_broker_helpers:setup_steps() ++
                rabbit_ct_client_helpers:setup_steps()),
     ok = rabbit_ct_broker_helpers:enable_plugin(Config, 0, rabbitmq_mqtt),
-    ok = rabbit_ct_broker_helpers:enable_plugin(Config, 0, rabbitmq_mqtt_username_interceptor),
+    ok = rabbit_ct_broker_helpers:enable_plugin(Config, 0, rabbitmq_mqtt_annotation_interceptor),
     Config.
 
 end_per_group(_Group, Config) ->

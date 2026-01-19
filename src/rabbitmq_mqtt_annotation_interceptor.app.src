@@ -1,0 +1,8 @@
+{application, rabbitmq_mqtt_annotation_interceptor, [
+    {description, "Adds MQTT connection metadata as message annotations"},
+    {vsn, "4.2.1"},
+    {modules, []},
+    {registered, []},
+    {applications, [kernel, stdlib, rabbit]},
+    {env, []}
+]}.

@@ -1,12 +1,12 @@
-# RabbitMQ MQTT Username Interceptor Plugin
+# RabbitMQ MQTT Annotation Interceptor Plugin
 #
-# This plugin adds x-opt-mqtt-username annotation to MQTT messages.
+# This plugin adds MQTT connection metadata as message annotations.
 #
 # Build approach:
 # Since RabbitMQ 4.x plugins must be built within the monorepo context,
 # this Makefile clones the monorepo and builds the plugin from there.
 
-PROJECT = rabbitmq_mqtt_username_interceptor
+PROJECT = rabbitmq_mqtt_annotation_interceptor
 # Note: rabbit_msg_interceptor behavior is only available in main branch (will be in 4.2+)
 RABBITMQ_VERSION ?= main
 
@@ -77,7 +77,7 @@ distclean: clean
 
 # Show help
 help:
-	@echo "RabbitMQ MQTT Username Interceptor Plugin"
+	@echo "RabbitMQ MQTT Annotation Interceptor Plugin"
 	@echo ""
 	@echo "Targets:"
 	@echo "  all       - Build the plugin (default)"

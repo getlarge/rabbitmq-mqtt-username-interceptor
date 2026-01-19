@@ -1,5 +1,5 @@
-PROJECT = rabbitmq_mqtt_username_interceptor
-PROJECT_DESCRIPTION = Adds MQTT username as message annotation
+PROJECT = rabbitmq_mqtt_annotation_interceptor
+PROJECT_DESCRIPTION = Adds MQTT connection metadata as message annotations
 
 define PROJECT_APP_EXTRA_KEYS
 	{broker_version_requirements, ["4.2.0"]}

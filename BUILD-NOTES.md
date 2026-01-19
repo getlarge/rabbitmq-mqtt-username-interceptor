@@ -19,7 +19,7 @@ Building standalone RabbitMQ 4.x plugins is challenging because:
 The standalone Makefile clones the monorepo and builds the plugin from within it:
 
 1. Clones `rabbitmq-server` to `.build/rabbitmq-server/`
-2. **Copies** (not symlinks) `src/` and `test/` to `deps/rabbitmq_mqtt_username_interceptor/`
+2. **Copies** (not symlinks) `src/` and `test/` to `deps/rabbitmq_mqtt_annotation_interceptor/`
 3. Copies `Makefile.plugin` as the plugin's Makefile (uses standard monorepo includes)
 4. Runs the build from within the monorepo context
 
@@ -47,7 +47,7 @@ make distclean                 # Remove everything including monorepo clone
 ### Creating Distribution
 
 ```bash
-make dist                      # Creates dist/rabbitmq_mqtt_username_interceptor-X.Y.Z.ez
+make dist                      # Creates dist/rabbitmq_mqtt_annotation_interceptor-X.Y.Z.ez
 ```
 
 **Important**: The `dist` target runs `make dist` inside the monorepo plugin directory, which:
